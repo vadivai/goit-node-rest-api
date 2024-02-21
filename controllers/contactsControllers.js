@@ -1,14 +1,30 @@
 // const controllerWrapper = require("../../helpers/controllerWrapper");
 // module.exports = {
-//   getAll: controllerWrapper(getAll),
-//   getById: controllerWrapper(getById),
-//   removeById: controllerWrapper(removeById),
-//   add: controllerWrapper(add),
-//   updateById: controllerWrapper(updateById),
+//   getAllContacts: controllerWrapper(getAllContacts),
+//   getOneContact: controllerWrapper(getOneContact),
+//   removeContact: controllerWrapper(removeContact),
+//   addContact: controllerWrapper(addContact),
+//   updateContact: controllerWrapper(updateContact),
 // };
 
 const httpError = require("../helpers/HttpError.js");
 const contactsService = require("../services/contactsServices.js");
+const {
+  createContactSchema,
+  updateContactSchema,
+} = require("../schemas/contactsSchemas.js");
+const validateBody = require("../helpers/validateBody.js");
+
+// const controllerWrapper = (controller) => {
+//   const controllerFunc = async (req, res, next) => {
+//     try {
+//       await controller(req, res, next);
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+//   return controllerFunc;
+// };
 
 const getAllContacts = async (req, res, next) => {
   try {
@@ -47,13 +63,9 @@ const deleteContact = async (req, res, next) => {
 
 const createContact = async (req, res, next) => {
   try {
+    validateBody(createContactSchema);
     const result = await contactsService.addContact(req.body);
     res.status(201).json(result);
-    // Отримує body в json-форматі з полями {name, email, phone}.
-    // Усі поля є обов'язковими - для валідації створи у файлі contactsSchemas.js (знаходиться у папці schemas) схему з використаням пакета joi
-    // Якщо в body немає якихось обов'язкових полів (або передані поля мають не валідне значення), повертає json формату {"message": error.message} (де error.message - змістовне повідомлення з суттю помилки) зі статусом 400
-    // Якщо body валідне, викликає функцію-сервіс addContact для роботи з json-файлом contacts.json, з передачею їй даних з body
-    // За результатом роботи функції повертає новостворений об'єкт з полями {id, name, email, phone} і статусом 201
   } catch (error) {
     next(error);
   }
@@ -66,9 +78,9 @@ const updateContact = async (req, res, next) => {
     // Передані в боді поля мають бути провалідовані - для валідації створи у файлі contactsSchemas.js (знаходиться у папці schemas) схему з використанням пакета joi. Якщо передані поля мають не валідне значення, повертає json формату {"message": error.message} (де error.message - змістовне повідомлення з суттю помилки) зі статусом 400
     // Якщо з body все добре, викликає функцію-сервіс updateContact, яку слід створити в файлі contactsServices.js (знаходиться в папці services). Ця функція має приймати id контакта, що підлягає оновленню, та дані з body, і оновити контакт у json-файлі contacts.json
     // За результатом роботи функції повертає оновлений об'єкт контакту зі статусом 200.
-
     const { id } = req.params;
     const { name, email, phone } = req.body;
+    validateBody(updateContactSchema);
     const result = await contactsService.updateContact({
       id,
       name,

@@ -1,23 +1,15 @@
-// import Joi from "joi";
+const Joi = require("joi");
 
-// export const createContactSchema = Joi.object({});
+const createContactSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  phone: Joi.string().required(),
+});
 
-// export const updateContactSchema = Joi.object({});
+const updateContactSchema = Joi.object({
+  name: Joi.string(),
+  email: Joi.string(),
+  phone: Joi.string(),
+});
 
-// const Joi = require("joi");
-
-// const createContactSchema = Joi.object({
-//   name: Joi.string().required(),
-//   email: Joi.string().required(),
-//   phone: Joi.string()
-//     .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
-//     .required(),
-// });
-
-// const updateContactSchema = Joi.object({
-//   name: Joi.string(),
-//   email: Joi.string(),
-//   phone: Joi.string().pattern(/^\(\d{3}\) \d{3}-\d{4}$/),
-// });
-
-// module.exports = { createContactSchema, updateContactSchema };
+module.exports = { createContactSchema, updateContactSchema };
