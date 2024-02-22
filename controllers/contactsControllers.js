@@ -1,10 +1,5 @@
 const httpError = require("../helpers/HttpError.js");
 const contactsService = require("../services/contactsServices.js");
-const {
-  createContactSchema,
-  updateContactSchema,
-} = require("../schemas/contactsSchemas.js");
-const validateBody = require("../helpers/validateBody.js");
 const controllerWrapper = require("./controllerWrapper.js");
 
 const getAllContacts = async (req, res, next) => {
