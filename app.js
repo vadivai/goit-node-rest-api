@@ -1,12 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const dotenv = require("dotenv");
-dotenv.config();
-// require("dotenv").config();
-
+require("dotenv").config();
 const mongoose = require("mongoose");
-
 const { DB_HOST, PORT = 3000 } = process.env;
 // const PORT = 3000;
 // const DB_HOST =
@@ -17,7 +13,7 @@ mongoose.set("strictQuery", true);
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    console.log("Database connect success");
+    console.log("Database connection successful");
     // app.listen(PORT);
     app.listen(PORT, () => {
       console.log("Server is running. Use our API on port: 3000");
@@ -47,7 +43,3 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
   // console.log(status, message);
 });
-
-// app.listen(3000, () => {
-//   console.log("Server is running. Use our API on port: 3000");
-// });
