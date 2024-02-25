@@ -5,9 +5,6 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const { DB_HOST, PORT = 3000 } = process.env;
-// const PORT = 3000;
-// const DB_HOST =
-//   "mongodb+srv://admin:7X855Z5sRvbwcpG9@cluster0.ibb15yf.mongodb.net/Library?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.set("strictQuery", true);
 
@@ -15,7 +12,6 @@ mongoose
   .connect(DB_HOST)
   .then(() => {
     console.log("Database connection successful");
-    // app.listen(PORT);
     app.listen(PORT, () => {
       console.log("Server is running. Use our API on port: 3000");
     });
@@ -44,5 +40,4 @@ app.use((_, res) => {
 app.use((err, req, res, next) => {
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });
-  // console.log(status, message);
 });

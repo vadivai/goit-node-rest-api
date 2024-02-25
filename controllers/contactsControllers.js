@@ -68,6 +68,3 @@ module.exports = {
   updateContact: controllerWrapper(updateContact),
   updateFavorite: controllerWrapper(updateFavorite),
 };
-
-// Зверни увагy
-// Валідацію body можна як здійснювати у контролері, так і створити для цих цілей окрему міддлвару, яка буде викликатись до контролера.
