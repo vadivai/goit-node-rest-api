@@ -4,12 +4,12 @@ const Contact = require("../models/contact.js");
 
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 5 } = req.query;
+  const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
   const result = await Contact.find({ owner }, "-updatedAt", {
     skip,
     limit,
-  }).populate("owner", "name email");
+  }).populate("owner", "email");
   res.status(200).json(result);
 };
 
@@ -40,7 +40,6 @@ const createContact = async (req, res) => {
 const updateContact = async (req, res) => {
   // якщо якесь із полів не передане, воно має зберегтись у контакта зі значенням, яке було до оновлення)
   const { id } = req.params;
-  // const { name, email, phone } = req.body;
   if (Object.keys(req.body).length === 0) {
     throw httpError(400, "Body must have at least one field");
   }

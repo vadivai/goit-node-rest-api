@@ -6,10 +6,10 @@ const controllerWrapper = require("./controllerWrapper.js");
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, subscription } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw httpError(409, "Such email already exist");
+    throw httpError(409, "Email in use");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
@@ -18,7 +18,7 @@ const register = async (req, res) => {
 
   res.status(201).json({
     email: newUser.email,
-    name: newUser.name,
+    subscription: newUser.subscription,
   });
 };
 
@@ -26,11 +26,11 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw httpError(401, "Email or password is invalid");
+    throw httpError(401, "Email or password is wrong");
   }
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-    throw httpError(401, "Email or password is invalid");
+    throw httpError(401, "Email or password is wrong");
   }
   // console.log("passwordCompare", passwordCompare);
 
@@ -39,22 +39,26 @@ const login = async (req, res) => {
   await User.findByIdAndUpdate(user._id, { token });
   res.json({
     token,
+    user: {
+      email,
+      subscription: user.subscription,
+    },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name } = req.user;
+  const { email, subscription } = req.user;
 
   res.json({
     email,
-    name,
+    subscription,
   });
 };
 
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
-  res.json({ message: "Logout success" });
+  res.json({ message: "Logout success, 204 No Content" });
 };
 
 module.exports = {
