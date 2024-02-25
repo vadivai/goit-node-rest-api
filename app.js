@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-
+const { authRouter, contactsRouter } = require("./routes");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const { DB_HOST, PORT = 3000 } = process.env;
@@ -20,9 +20,6 @@ mongoose
     console.log(error.message);
     process.exit(1);
   });
-
-const authRouter = require("./routes/auth");
-const contactsRouter = require("./routes/contactsRouter");
 
 const app = express();
 
