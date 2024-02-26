@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const { httpError, sendEmail } = require("../../helpers");
 const { User } = require("../../models");
-const nanoid = require("nanoid");
+const { nanoid } = require("nanoid");
 require("dotenv").config();
 const { BASE_URL } = process.env;
 
@@ -17,19 +17,19 @@ const register = async (req, res) => {
 
   const avatarURL = gravatar.url(email);
 
-  const verificationCode = nanoid();
+  const verificationToken = nanoid();
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
     avatarURL,
-    verificationCode,
+    verificationToken,
   });
 
   const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationCode}">Please, click here to verify email</a>`,
+    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Please, click here to verify email</a>`,
   };
   await sendEmail(verifyEmail);
 

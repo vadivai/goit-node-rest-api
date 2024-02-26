@@ -4,6 +4,8 @@ const {
   getCurrent,
   logout,
   updateAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } = require("../controllers/auth");
 const { authenticate, validateBody, upload } = require("../middlewares");
 const { schemas } = require("../models");
@@ -14,7 +16,13 @@ const authRouter = express.Router();
 
 authRouter.post("/register", validateBody(schemas.registerSchema), register);
 
-// authRouter.post("/verify/:verificationCode", verifyEmail);
+authRouter.get("/verify/:verificationToken", verifyEmail);
+
+authRouter.post(
+  "/verify",
+  validateBody(schemas.emailVerificationSchema),
+  resendVerifyEmail
+);
 
 authRouter.post("/login", validateBody(schemas.loginSchema), login);
 
