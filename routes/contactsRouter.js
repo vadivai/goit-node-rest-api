@@ -7,15 +7,15 @@ const {
   createContact,
   updateContact,
   updateFavorite,
-} = require("../controllers/contactsControllers.js");
+} = require("../controllers/contacts");
 
 const {
   createContactSchema,
   updateContactSchema,
   updateFavoriteSchema,
-} = require("../schemas/contactsSchemas.js");
-const validateBody = require("../helpers/validateBody");
-const authenticate = require("../helpers/authenticate.js");
+} = require("../schemas/contactsSchemas");
+
+const { authenticate, validateBody } = require("../middlewares");
 
 const contactsRouter = express.Router();
 
