@@ -12,6 +12,10 @@ const login = async (req, res) => {
     throw httpError(401, "Email or password is wrong");
   }
 
+  // if (!user.verify) {
+  //   throw httpError(401, "Email not verified");
+  // }
+
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
     throw httpError(401, "Email or password is wrong");
@@ -29,10 +33,4 @@ const login = async (req, res) => {
   });
 };
 
-const logout = async (req, res) => {
-  const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: "" });
-  res.json({ message: "Logout success, 204 No Content" });
-};
-
-module.exports = { login, logout };
+module.exports = login;

@@ -1,6 +1,7 @@
 const register = require("./register");
 const getCurrent = require("./getCurrent");
-const { login, logout } = require("./login, logout"); // в одном файле, потому что переменная token и там и там
+const login = require("./login"); // в одном файле, потому что переменная token и там и там
+const logout = require("./logout"); // в одном файле, потому что переменная token и там и там
 const updateAvatar = require("./updateAvatar");
 const { controllerWrapper } = require("../../helpers");
 
