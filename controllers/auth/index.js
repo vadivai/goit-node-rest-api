@@ -1,8 +1,11 @@
 const register = require("./register");
 const getCurrent = require("./getCurrent");
-const { login, logout } = require("./login, logout"); // в одном файле, потому что переменная token и там и там
+const login = require("./login"); // в одном файле, потому что переменная token и там и там
+const logout = require("./logout"); // в одном файле, потому что переменная token и там и там
 const updateAvatar = require("./updateAvatar");
 const { controllerWrapper } = require("../../helpers");
+const verifyEmail = require("./verifyEmail");
+const resendVerifyEmail = require("./resendVerifyEmail");
 
 module.exports = {
   register: controllerWrapper(register),
@@ -10,4 +13,6 @@ module.exports = {
   getCurrent: controllerWrapper(getCurrent),
   logout: controllerWrapper(logout),
   updateAvatar: controllerWrapper(updateAvatar),
+  verifyEmail: controllerWrapper(verifyEmail),
+  resendVerifyEmail: controllerWrapper(resendVerifyEmail),
 };
